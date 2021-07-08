@@ -1,1 +1,6 @@
-# krung2-gabia-sms
+# gabia-sms
+
+\*\* 주의 \*\*
+
+이 module은 가비아에서 공식지원하는 것이 아님을 알려드립니다
+
