@@ -117,9 +117,9 @@ class GabiaSMS {
     message: string,
     subject: string,
   ): Promise<IDefaultResData> {
-    // if (message === '') {
-    //   throw new Error('Please check the message.');
-    // }
+    if (message === '') {
+      throw new Error('Please check the message.');
+    }
 
     await this.getAccesstoken();
 

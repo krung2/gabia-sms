@@ -14,7 +14,12 @@ export class CustomAxiosError extends Error {
 			this.message = 'Please check Network';
 			return;
 		}
-		this.message = ' 123';
+
+		if (e.response.status >= 500) {
+			this.name = `${e.response.status}`;
+			this.message = e.response.statusText
+			return;
+		}
 
 		if (e.response.data !== undefined) {
 			this.name = e.response.data.code;
