@@ -1,6 +1,6 @@
 {
   "name": "node-gabia-sms",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "using gabiad sms service",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/krung2/gabia-sms.git"
   },
   "author": "krung2 <jungbin4337@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/krung2/gabia-sms/issues"
   },
