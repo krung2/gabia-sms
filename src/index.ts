@@ -1,8 +1,9 @@
 import axios, { AxiosInstance } from "axios";
 import { Base64 } from "js-base64";
+import { CustomAxiosError } from "./error";
 import { initSMSToken, sendLMS, sendShortSMS } from "./modules/gabia-service";
 import { IGabiaAPIConfiguration } from "./types/IGabiaAPIConfiguration";
-import { IGetAccessToken } from "./types/IGabiaResponse";
+import { IDefaultRes, IDefaultResData, IGetAccessToken } from "./types/IGabiaResponse";
 
 const gabiaAPIConfiguration: IGabiaAPIConfiguration = {
   baseURL: 'https://sms.gabia.com/',
@@ -39,6 +40,10 @@ class GabiaSMS {
     this.gabiaToken = '';
   }
 
+  private async call<T>(options: Object): Promise<T> {
+    return this.$axios(options).then(res => res.data.data);
+  }
+
   private async getAccesstoken(): Promise<void> {
     this.$axios = axios.create(
       this._baseConfig(
@@ -47,7 +52,7 @@ class GabiaSMS {
     );
 
     try {
-      const data: IGetAccessToken = await this.call<any>(initSMSToken())
+      const data: IGetAccessToken = await this.call<IGetAccessToken>(initSMSToken())
       if (data === undefined) {
         return;
       }
@@ -63,67 +68,71 @@ class GabiaSMS {
         )
       );
     } catch (err) {
-      throw new Error('Please register your current IP on the Gavia site.');
+      throw new CustomAxiosError(err);
     }
   }
 
-  private async call<T>(options: Object): Promise<T> {
-    return this.$axios(options).then(res => res.data);
-  }
-
   /**
-   * @description 단문 메시지 전송
+   * @description 단문 메시지 전송 (1건이 차감됩니다)
    * @param phone 받는 사람의 전화번호
    * @param callback 보내는 사람의 전화번호
    * @param message 메시지
-   * @param isForeign 국제 번호로 문자 발송을 원하는 경우, 해당 값을 Y로 넣어 주세요.
-국제 문자 발송은 단문(SMS)만 지원하며, 발송 시 6건이 차감됩니다.
+   * @param isForeign 국제 번호로 문자 발송을 원하는 경우, 해당 값을 Y로 넣어 주세요. 국제 문자 발송은 단문(SMS)만 지원하며, 발송 시 6건이 차감됩니다.
    */
   async sendSMS(
     phone: string,
     callback: string,
     message: string,
     isForeign?: 'Y'
-  ): Promise<void> {
+  ): Promise<IDefaultResData> {
     if (message === '') {
       throw new Error('Please check the message.');
     }
+
     await this.getAccesstoken();
 
     try {
-      await this.$axios(sendShortSMS({
+      return (await this.call<IDefaultRes>(sendShortSMS({
         phone,
         callback,
         message,
         refkey: this.refKEY,
         is_foreign: isForeign,
-      }))
-    } catch (e) {
-      throw new Error('Please register your current IP on the Gavia site.');
+      }))).data;
+    } catch (err) {
+      throw new CustomAxiosError(err);
     }
   }
 
+  /**
+   * @description 장문 메시지 전송 (3건이 차감됩니다)
+   * @param phone 받는 사람의 전화번호
+   * @param callback 보내는 사람의 전화번호
+   * @param message 메시지
+   * @param subject LMS의 제목이 되는 메시지
+   */
   async sendLMS(
     phone: string,
     callback: string,
     message: string,
     subject: string,
-  ): Promise<void> {
-    if (message === '') {
-      throw new Error('Please check the message.');
-    }
+  ): Promise<IDefaultResData> {
+    // if (message === '') {
+    //   throw new Error('Please check the message.');
+    // }
+
     await this.getAccesstoken();
 
     try {
-      await this.$axios(sendLMS({
+      return (await this.call<IDefaultRes>(sendLMS({
         phone,
         callback,
         message,
         refkey: this.refKEY,
         subject,
-      }))
-    } catch (e) {
-      throw new Error('Please register your current IP on the Gavia site.');
+      }))).data;
+    } catch (err) {
+      throw new CustomAxiosError(err)
     }
   }
 
