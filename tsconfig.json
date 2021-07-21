@@ -5,6 +5,7 @@
     "declaration": true, /* Generates corresponding '.d.ts' file. */
     "outDir": "./dist", /* Redirect output structure to the directory. */
     "strict": true, /* Enable all strict type-checking options. */
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "downlevelIteration": true,
   }
 }

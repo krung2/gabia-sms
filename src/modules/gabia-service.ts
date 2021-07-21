@@ -2,6 +2,7 @@ import qs from "querystring";
 import { AxiosRequestConfig } from "axios";
 import { IShortMessage } from "../types/send/SMS.types";
 import { ILongMessage } from "../types/send/LMS.types";
+import { IMultimediaMessage } from "../types/send/MMS.types";
 
 export const initSMSToken = (): AxiosRequestConfig => ({
 	method: 'POST',
@@ -13,10 +14,16 @@ export const sendShortSMS = (data: IShortMessage): AxiosRequestConfig => ({
 	method: 'POST',
 	url: '/api/send/sms',
 	data: qs.stringify({ ...data })
-})
+});
 
 export const sendLMS = (data: ILongMessage): AxiosRequestConfig => ({
 	method: 'POST',
 	url: '/api/send/lms',
 	data: qs.stringify({ ...data })
-})
+});
+
+export const sendMMS = (formData: FormData): AxiosRequestConfig => ({
+	method: 'POST',
+	url: '/api/send/mms',
+	data: formData,
+});

@@ -1,4 +1,6 @@
 test.ts
+assets
+@types
 package-lock.json
 yarn.lock
 

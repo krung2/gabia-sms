@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { Base64 } from "js-base64";
 import { CustomAxiosError } from "./error";
-import { initSMSToken, sendLMS, sendShortSMS } from "./modules/gabia-service";
+import { initSMSToken, sendLMS, sendShortSMS, sendMMS } from "./modules/gabia-service";
 import { IGabiaAPIConfiguration } from "./types/IGabiaAPIConfiguration";
 import { IDefaultRes, IDefaultResData, IGetAccessToken } from "./types/IGabiaResponse";
 
@@ -52,7 +52,7 @@ class GabiaSMS {
     );
 
     try {
-      const data: any = await this.call<IGetAccessToken>(initSMSToken());
+      const data: IGetAccessToken = await this.call<IGetAccessToken>(initSMSToken());
 
       if (data === undefined) {
 
@@ -92,10 +92,8 @@ class GabiaSMS {
       throw new Error('Please check the message.');
     }
 
+    await this.getAccesstoken();
     try {
-
-      await this.getAccesstoken();
-
       return (await this.call<IDefaultRes>(sendShortSMS({
         phone,
         callback,
@@ -126,7 +124,6 @@ class GabiaSMS {
     }
 
     await this.getAccesstoken();
-
     try {
       return (await this.call<IDefaultRes>(sendLMS({
         phone,
@@ -137,6 +134,37 @@ class GabiaSMS {
       }))).data;
     } catch (err) {
       throw new CustomAxiosError(err)
+    }
+  }
+
+  async sendMMS(
+    phone: string,
+    callback: string,
+    message: string,
+    subject: string,
+    images: File[],
+  ): Promise<IDefaultResData> {
+    if (message === '') {
+      throw new Error('Please check the message.');
+    }
+
+    await this.getAccesstoken();
+
+    const formData = new FormData();
+    formData.append('phone', phone);
+    formData.append('callback', callback);
+    formData.append('message', message);
+    formData.append('subject', subject);
+    formData.append('refkey', this.refKEY);
+    formData.append('img_cnt', String(images.length));
+    for (const [index, value] of images.entries()) {
+      formData.append(`images${index}`, value);
+    }
+
+    try {
+      return (await this.call<IDefaultRes>(sendMMS(formData))).data;
+    } catch (err) {
+      throw new CustomAxiosError(err);
     }
   }
 
