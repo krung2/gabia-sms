@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 
 export class CustomAxiosError extends Error {
 	name: string = 'Data transfer Error';

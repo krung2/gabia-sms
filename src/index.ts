@@ -41,7 +41,7 @@ class GabiaSMS {
   }
 
   private async call<T>(options: Object): Promise<T> {
-    return this.$axios(options).then(res => res.data.data);
+    return this.$axios(options).then(res => res.data);
   }
 
   private async getAccesstoken(): Promise<void> {
@@ -52,12 +52,15 @@ class GabiaSMS {
     );
 
     try {
-      const data: IGetAccessToken = await this.call<IGetAccessToken>(initSMSToken())
+      const data: any = await this.call<IGetAccessToken>(initSMSToken());
+
       if (data === undefined) {
-        return;
+
+        throw new Error('axios통신 중 오류 발생');
       }
 
       if (data.token_type === 'Y') {
+
         throw new Error('만료된 APIKEY입니다');
       }
 
@@ -89,9 +92,10 @@ class GabiaSMS {
       throw new Error('Please check the message.');
     }
 
-    await this.getAccesstoken();
-
     try {
+
+      await this.getAccesstoken();
+
       return (await this.call<IDefaultRes>(sendShortSMS({
         phone,
         callback,

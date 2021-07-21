@@ -13,7 +13,6 @@ export const sendShortSMS = (data: IShortMessage): AxiosRequestConfig => ({
 	method: 'POST',
 	url: '/api/send/sms',
 	data: qs.stringify({ ...data })
-	// data: qs.stringify({ phone: data.phone, callback: data.callback, message: data.message, refkey: data.refkey, is_foreign: data.is_foreign }),
 })
 
 export const sendLMS = (data: ILongMessage): AxiosRequestConfig => ({
