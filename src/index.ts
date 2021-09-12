@@ -82,7 +82,7 @@ class GabiaSMS {
    * @param message 메시지
    * @param isForeign 국제 번호로 문자 발송을 원하는 경우, 해당 값을 Y로 넣어 주세요. 국제 문자 발송은 단문(SMS)만 지원하며, 발송 시 6건이 차감됩니다.
    */
-  async sendSMS(
+  public async sendSMS(
     phone: string,
     callback: string,
     message: string,
@@ -113,7 +113,7 @@ class GabiaSMS {
    * @param message 메시지
    * @param subject LMS의 제목이 되는 메시지
    */
-  async sendLMS(
+  public async sendLMS(
     phone: string,
     callback: string,
     message: string,
@@ -137,7 +137,7 @@ class GabiaSMS {
     }
   }
 
-  async sendMMS(
+  public async sendMMS(
     phone: string,
     callback: string,
     message: string,
@@ -184,4 +184,4 @@ class GabiaSMS {
   };
 }
 
-export = (gabiaId: string, apiKey: string, refKey: string): GabiaSMS => new GabiaSMS(gabiaId, apiKey, refKey);
+export default GabiaSMS;
