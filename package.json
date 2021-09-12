@@ -1,14 +1,13 @@
 {
   "name": "node-gabia-sms",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "using gabiad sms service",
   "main": "dist/index.js",
   "scripts": {
-    "prepare": "rm -rf dist && tsc",
     "build": "tsc"
   },
   "directories": {
-    "lib": "src"
+    "lib": "lib"
   },
   "repository": {
     "type": "git",
@@ -30,6 +29,8 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "js-base64": "^3.6.1"
+    "dtil": "^1.1.0",
+    "js-base64": "^3.6.1",
+    "query-string": "^7.0.1"
   }
 }
