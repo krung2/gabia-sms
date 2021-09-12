@@ -3,6 +3,7 @@ import { Base64 } from "js-base64";
 import { CustomAxiosError } from "./error";
 import { initSMSToken, sendLMS, sendShortSMS, sendMMS } from "./modules/gabia-service";
 import { IGabiaAPIConfiguration } from "./types/IGabiaAPIConfiguration";
+import IGabiaConfig from "./types/IGabiaConfig";
 import { IDefaultRes, IDefaultResData, IGetAccessToken } from "./types/IGabiaResponse";
 
 const gabiaAPIConfiguration: IGabiaAPIConfiguration = {
@@ -31,11 +32,11 @@ class GabiaSMS {
    * @param apiKey Apikey issued by gabiaSMS service
    * @param refKey refKey issued by gabiaSMS service
    */
-  constructor(gabiaId: string, apiKey: string, refKey: string) {
+  constructor(config: IGabiaConfig) {
 
-    this.gabiaId = gabiaId;
-    this.API_KEY = apiKey;
-    this.refKEY = refKey;
+    this.gabiaId = config.gabiaId;
+    this.API_KEY = config.apiKey;
+    this.refKEY = config.refKey;
     this.$axios = axios.create();
     this.gabiaToken = '';
   }
