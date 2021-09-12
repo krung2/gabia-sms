@@ -7,6 +7,9 @@
     "prepare": "rm -rf dist && tsc",
     "build": "tsc"
   },
+  "directories": {
+    "lib": "src"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/krung2/gabia-sms.git"
