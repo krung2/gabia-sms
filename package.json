@@ -1,8 +1,8 @@
 {
   "name": "node-gabia-sms",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "using gabiad sms service",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "prepare": "rm -rf dist && tsc",
     "build": "tsc"
