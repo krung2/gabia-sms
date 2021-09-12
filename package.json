@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "dtil": "^1.1.0",
     "js-base64": "^3.6.1",
     "query-string": "^7.0.1"
   }

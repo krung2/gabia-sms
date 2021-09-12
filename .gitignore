@@ -4,7 +4,7 @@ assets
 @types
 package-lock.json
 yarn.lock
-
+node_modules
 
 # Logs
 logs

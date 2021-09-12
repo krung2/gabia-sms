@@ -1,4 +1,4 @@
-import qs from "querystring";
+import qs from 'querystring';
 import { AxiosRequestConfig } from "axios";
 import { IShortMessage } from "../types/send/SMS.types";
 import { ILongMessage } from "../types/send/LMS.types";
